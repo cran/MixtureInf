@@ -1,0 +1,8 @@
+export('emtest.binom')
+export('emtest.exp')
+export('emtest.norm')
+export('emtest.norm2')
+export('emtest.pois')
+exportPattern('^r[a-z]+mix$')
+
+S3method(print, emtest)
