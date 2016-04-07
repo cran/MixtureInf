@@ -1,31 +1,33 @@
-\name{emtest.norm}
-\alias{emtest.norm}
+\name{emtest.norm0}
+\alias{emtest.norm0}
 \title{
-test the order of a mixture of normals with unequal variance
+test the order of a mixture of normals with equal and known variance
 }
 \description{
-EM-test for the order of a finite mixture of normals with unequal variance.
+EM-test for the order of a finite mixture of normals with equal and known variance.
 }
 \usage{
-emtest.norm(x, m0 = 1, pens = NULL, 
-	    inival = NULL, len = 10, niter = 50, tol = 1e-6, k = 3, rformat = FALSE)
+emtest.norm0(x, var, m0 = 1, C = NULL, 
+	     inival = NULL, len = 10, niter = 50, tol = 1e-6, k = 3, rformat = FALSE)
 }
 \arguments{
   \item{x}{
-data, can be either a vector or a matrix with the 1st column being the the observed values and the 2nd column being the corresponding frequencies.
+data, can be either a vector or a matrix with the 1st column being the observed values and the 2nd column being the corresponding frequencies.
+}
+  \item{var}{
+known component variance.
 }
   \item{m0}{
-order of the finite mixture model under the null hypothesis. default value: m0 = 1.
+order of the finite mixture model under the null hypothesis, default value: m0 = 1.
 }
-  \item{pens}{
-a 2-dimensions vector with the level of penalty functions for mixing proportion and variance,
-default value: pens = NULL.
-(if not provided, it will be determined by the formulas described in Chen, Li and Fu, 2012)
+  \item{C}{
+optional tuning parameter for EM-test procedure, default value: C = NULL.
+(if not provided, it will be determined by the formulas described in Chen and Li, 2011).
 }
   \item{inival}{
 initial values for the EM-algorithm to compute the MLE under the null model, 
-a 3m0-dimensions vector including m0 mixing proportions, m0 component means and m0 component variances, 
-or a matrix with 3m0 columns, default value: inival = NULL. 
+a 2m0-dimension vector including m0 mixing proportions and m0 component parameters,  
+or a matrix with 2m0 columns, default value: inival = NULL. 
 (if not provided, random initial values are used.)
 }
   \item{len}{
@@ -63,20 +65,22 @@ P-value
 Level of penalty
 }
 \references{
-Chen, J. and Li, P. (2009). Hypothesis test for normal mixture models: The EM approach. The Annals of Statistics. 37, 2523--2542.
+Chen, J. and Li, P. (2011). Tuning the EM-test for the order of finite mixture models. The Canadian Journal of Statistics. 39, 389--404.
 
-Chen, J., Li, P. and Fu, Y. (2012). Inference on the order of a normal mixture. JASA. 107, 1096--1105.
+Li, P. and Chen, J. (2010). Testing the order of a finite mixture model. JASA. 105, 1084--1092.
+
+Li, P., Chen, J. and Marriott, P. (2009). Non-finite Fisher information and homogeneity: The EM approach. Biometrika. 96, 411--426.
 }
 \author{
 Shaoting Li, Jiahua Chen and Pengfei Li
 }
 \seealso{
-plotmix.norm, pmle.norm, rmix.norm
+plotmix.norm0, pmle.norm0, rmix.norm
 }
 \examples{
-#load the grains data set,
+#generate a random sample from a 2 component noraml mixture with equal variance, 
 #conduct homogeneity test by the EM-test.
-data(grains)
-emtest.norm(grains)
+x <- rmix.norm(200,c(0.3,0.7),c(-1,2),c(2,2))
+emtest.norm0(x,var=4)
 }
 \keyword{htest}
